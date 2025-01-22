@@ -63,18 +63,18 @@ function setCollectionName(request, response, next, collectionName) {
 }
 
 function addObject(request, response, next) {
-    const { name, company, email, phone, msg } = req.body;
+    const { name, company, email, phone, msg } = request.body;
   
     if (!name || !company || !email || !phone || !msg) {
-      return res.status(400).send({ msg: 'All fields are required' });
+      return response.status(400).send({ msg: 'All fields are required' });
     }
   
-    db.collection('requests').insertOne({ name, company, email, phone, msg }, (err, result) => {
-      if (err) {
-        console.error('Error inserting into MongoDB:', err);
-        return res.status(500).send({ msg: 'Error saving request' });
+    db.collection('requests').insertOne({ name, company, email, phone, msg }, (error, result) => {
+      if (error) {
+        console.error('Error inserting into MongoDB:', error);
+        return response.status(500).send({ msg: 'Error saving request' });
       }
-      res.status(200).send({ msg: 'success' });
+      response.status(200).send({ msg: 'success' });
     });
 };
 
