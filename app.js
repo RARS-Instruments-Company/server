@@ -5,7 +5,7 @@ const MongoClient = require('mongodb').MongoClient;
 require('dotenv').config(); // Load environment variables
 
 function config(request, response, next) {
-    const allowedOrigins = ['https://rars-instruments-company.github.io/page/', 'https://rarsinstruments.com'];
+    const allowedOrigins = ['https://rars-instruments-company.github.io/page/', 'https://www.rarsinstruments.com'];
     const origin = request.headers.origin;
     if (allowedOrigins.includes(origin)) {
         response.setHeader("Access-Control-Allow-Origin", origin);
@@ -63,13 +63,13 @@ function setCollectionName(request, response, next, collectionName) {
 }
 
 function addObject(request, response, next) {
-    const { name, company, email, phone, msg } = request.body;
+    const { name, company, location, email, phone, message } = request.body;
   
-    if (!name || !company || !email || !phone || !msg) {
+    if (!name || !company || !location || !email || !phone || !message) {
       return response.status(400).send({ msg: 'All fields are required' });
     }
   
-    db.collection('requests').insertOne({ name, company, email, phone, msg }, (error, result) => {
+    db.collection('requests').insertOne({ name, company, location, email, phone, message }, (error, result) => {
       if (error) {
         console.error('Error inserting into MongoDB:', error);
         return response.status(500).send({ msg: 'Error saving request' });
